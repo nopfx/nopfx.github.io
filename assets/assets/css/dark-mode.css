@@ -1,0 +1,152 @@
+/* Dark Mode Styles */
+:root {
+    /* Light mode colors (default) */
+    --bg-color: #f0f6fc;
+    --text-color: #24292e;
+    --accent-color: #0969da;
+    --secondary-color: #57606a;
+    --border-color: #d0d7de;
+    --success-color: #2da44e;
+    --error-color: #cf222e;
+    --warning-color: #bf8700;
+    --terminal-bg: #f6f8fa;
+    --terminal-output-bg: rgba(240, 246, 252, 0.6);
+    --post-bg: rgba(246, 248, 250, 0.7);
+    --box-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode class */
+.dark-mode {
+    --bg-color: #0d1117;
+    --text-color: #e6edf3;
+    --accent-color: #58a6ff;
+    --secondary-color: #8b949e;
+    --border-color: #30363d;
+    --success-color: #3fb950;
+    --error-color: #f85149;
+    --warning-color: #d29922;
+    --terminal-bg: #161b22;
+    --terminal-output-bg: rgba(13, 17, 23, 0.6);
+    --post-bg: rgba(22, 27, 34, 0.7);
+    --box-shadow: rgba(0, 0, 0, 0.5);
+}
+
+/* Apply theme variables */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.container {
+    background-color: var(--terminal-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 30px var(--box-shadow);
+    transition: all 0.3s ease;
+}
+
+.terminal-header {
+    background-color: var(--terminal-bg);
+    transition: all 0.3s ease;
+}
+
+.post {
+    background-color: var(--post-bg);
+    transition: all 0.3s ease;
+}
+
+.terminal-output {
+    background-color: var(--terminal-output-bg);
+    transition: all 0.3s ease;
+}
+
+code {
+    background-color: var(--terminal-output-bg);
+    transition: all 0.3s ease;
+}
+
+pre {
+    background-color: var(--terminal-output-bg);
+    transition: all 0.3s ease;
+}
+
+/* Toggle Switch Styles */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.toggle-label {
+    font-size: 12px;
+    margin-right: 8px;
+    color: var(--secondary-color);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--secondary-color);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.toggle-icon {
+    font-size: 14px;
+    position: absolute;
+    top: 3px;
+}
+
+.toggle-icon.sun {
+    left: 5px;
+    color: #ffd700;
+}
+
+.toggle-icon.moon {
+    right: 5px;
+    color: #ffffff;
+}
+
+.keyboard-shortcut {
+    font-size: 10px;
+    margin-left: 5px;
+    color: var(--secondary-color);
+    opacity: 0.7;
+}
