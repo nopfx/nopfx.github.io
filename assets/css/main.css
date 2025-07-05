@@ -38,26 +38,25 @@ header {
 }
 
 .flex {
-  display:flex;
+    display: flex;
 }
 
 .acenter.flex {
-  align-items:center;
+    align-items: center;
 }
 
 .terminal-output .avatar {
-  background-image: url("/apple-icon-72x72.png");
-  width: 70px;
-  height: 70px;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  margin: 0 20px 0 0;
-  border-radius:100%;
+    background-image: url("/apple-icon-72x72.png");
+    width: 70px;
+    height: 70px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    margin: 0 20px 0 0;
 }
 
 .terminal-output {
-  height:auto;
-  overflow:hidden;
+    height: auto;
+    overflow: hidden;
 }
 
 .terminal-buttons {
@@ -146,7 +145,8 @@ main {
     gap: 15px;
 }
 
-.note-content, .post-content {
+.note-content,
+.post-content {
     font-size: 14px;
     margin-bottom: 10px;
 }
@@ -231,92 +231,96 @@ h3 {
     color: var(--accent-color);
 }
 .note-content ul {
-  padding:20px 0 15px 25px;
+    padding: 20px 0 15px 25px;
 }
 .note-content h2 {
-  margin-bottom:15px;
+    margin-bottom: 15px;
 }
-.note-content h3, .note-content h2 {
-  margin-top:25px;
+.note-content h3,
+.note-content h2 {
+    margin-top: 25px;
 }
 .note-content p {
-  line-height:20px;
+    line-height: 20px;
+    padding: 8px 0;
 }
 /* Basic table styling */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 25px 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 14px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  overflow: hidden;
-  transition: all 0.3s ease;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+        Arial, sans-serif;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 /* Table header */
 thead {
-  background-color: #f8f9fa;
+    background-color: #f8f9fa;
 }
 
 th {
-  padding: 12px 15px;
-  text-align: left;
-  font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #dee2e6;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
 }
 
 /* Table body */
 td {
-  padding: 10px 15px;
-  border-bottom: 1px solid #e9ecef;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e9ecef;
 }
 
 /* Zebra striping for rows */
 tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
 
 /* Hover effect */
 tbody tr:hover {
-  background-color: #f1f8ff;
+    background-color: #f1f8ff;
 }
 
 /* Dark mode styles */
 html.dark-mode table {
-  background-color: #222;
-  color: #e0e0e0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background-color: #222;
+    color: #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 html.dark-mode thead {
-  background-color: #333;
+    background-color: #333;
 }
 
 html.dark-mode th {
-  color: #f0f0f0;
-  border-bottom: 2px solid #444;
+    color: #f0f0f0;
+    border-bottom: 2px solid #444;
 }
 
 html.dark-mode td {
-  border-bottom: 1px solid #444;
+    border-bottom: 1px solid #444;
 }
 
 html.dark-mode tbody tr:nth-child(even) {
-  background-color: #2a2a2a;
+    background-color: #2a2a2a;
 }
 
 html.dark-mode tbody tr:hover {
-  background-color: #3a3a3a;
+    background-color: #3a3a3a;
 }
 
 /* Responsive tables */
 @media (max-width: 768px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }
