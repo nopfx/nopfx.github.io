@@ -1,0 +1,152 @@
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        border-radius: 6px;
+    }
+    
+    .terminal-nav {
+        gap: 15px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 16px;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .form-group .prompt {
+        margin-bottom: 5px;
+    }
+    
+    .terminal-button-submit {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-header {
+        padding: 8px 10px;
+    }
+    
+    .terminal-title {
+        font-size: 12px;
+    }
+    
+    .terminal-buttons {
+        gap: 6px;
+    }
+    
+    .terminal-button {
+        width: 10px;
+        height: 10px;
+    }
+    
+    nav {
+        padding: 8px 10px;
+    }
+    
+    .terminal-nav {
+        gap: 10px;
+        flex-direction: column;
+    }
+    
+    main {
+        padding: 15px;
+    }
+    
+    .post {
+        padding: 10px;
+    }
+    
+    .terminal-output {
+        padding: 10px;
+    }
+    
+    .terminal-line {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .prompt {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    
+    footer {
+        padding: 15px;
+    }
+    
+    .blog-intro, .featured-posts, .newsletter {
+        margin-bottom: 20px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 90%;
+    }
+    
+    main {
+        padding: 20px;
+    }
+}
+
+/* Dark mode detection */
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-color: #f0f6fc;
+        --text-color: #24292e;
+        --accent-color: #0969da;
+        --secondary-color: #57606a;
+        --border-color: #d0d7de;
+        --success-color: #2da44e;
+        --error-color: #cf222e;
+        --warning-color: #bf8700;
+    }
+    
+    .container {
+        background-color: rgba(240, 246, 252, 0.8);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .terminal-header {
+        background-color: #f6f8fa;
+    }
+    
+    .post {
+        background-color: rgba(246, 248, 250, 0.7);
+    }
+    
+    .terminal-output {
+        background-color: rgba(240, 246, 252, 0.6);
+    }
+    
+    code {
+        background-color: rgba(240, 246, 252, 0.8);
+    }
+    
+    pre {
+        background-color: rgba(240, 246, 252, 0.8);
+    }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nop.Fx(Notes) -> </title><link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="assets/css/reset.css"><link rel="stylesheet" href="assets/css/main.css"><link rel="stylesheet" href="assets/css/terminal.css"><link rel="stylesheet" href="assets/css/responsive.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/dark-mode.css"></head><body><div class="container"><header><div class="terminal-header"><div class="terminal-buttons"><span class="terminal-button close"></span><span class="terminal-button minimize"></span><span class="terminal-button maximize"></span></div><div class="terminal-title">~/</div><div class="toggle-container"><span class="toggle-label">Theme</span><label class="toggle-switch"><input type="checkbox" id="dark-mode-toggle"><span class="toggle-slider"></span></label></div></div><nav><ul class="terminal-nav"><li><a href="index.html">> home</a></li><li><a href="https://github.com/nopfx" target="_blank">> code</a></li><li><a href="https://discord.gg/CtP4vwG5" target="_blank">> chat</a></li></ul></nav></header><main><div class="note-content"><h1>Tiny Result library in go</h1><p>GIT: <a href="https://github.com/nopfx/gresult">GResult</a></p><p>Go sometimes can be annoying for me—especially when talking about error handling. So that’s why I created this little result library.</p><p>Let me be clear: I love how simple and pragmatic Go is. But I also hate how noisy and repetitive error handling can get. Writing if err != nil { return err } twenty times in a single function is not only boring—it also feels like I’m programming in assembly when I signed up for a higher-level language.</p><p>So I wrote a <code>Result[T]</code> type. It’s small, generic (thanks to Go 1.18+), and gives me a taste of the expressive power you get in Rust or even modern JavaScript. Let me show you how it works and explain why I think it’s a good (but not perfect) abstraction.</p>
+<p>The code:</p><pre><code>package result
+
+import "fmt"
+
+type Result[T any] struct {
+	val T
+	err error
+}
+
+func From[T any](val T, err error) Result[T] {
+	if err != nil {
+		return Err[T](err)
+	}
+	return Ok(val)
+}
+
+func Ok[T any](val T) Result[T] {
+	return Result[T]{val: val, err: nil}
+}
+
+func Err[T any](err error) Result[T] {
+	var none T
+	return Result[T]{val: none, err: err}
+}
+
+func (r Result[T]) IsErr() bool {
+	return r.err != nil
+}
+
+func (r Result[T]) IsOk() bool {
+	return r.err == nil
+}
+
+func (r Result[T]) Unwrap() T {
+	if r.err != nil {
+		panic(fmt.Sprintf("called Unwrap on Err: %v", r.err))
+	}
+	return r.val
+}
+
+func (r Result[T]) UnwrapOr(defaultVal T) T {
+	if r.err != nil {
+		return defaultVal
+	}
+	return r.val
+}
+
+func (r Result[T]) Map(f func(T) T) Result[T] {
+	if r.err != nil {
+		return r
+	}
+	return Ok(f(r.val))
+}
+
+func (r Result[T]) AndThen(f func(T) Result[T]) Result[T] {
+	if r.err != nil {
+		return r
+	}
+	return f(r.val)
+}
+
+</code></pre>
+<p>What’s Good About This?</p><h3>✅ Cleaner Chaining</h3><p>Instead of doing this:</p><pre><code>res, err := doThing()
+if err != nil {
+    return err
+}
+res2, err := doAnotherThing(res)
+if err != nil {
+    return err
+}
+</code></pre>
+<p>You can do this:</p><pre><code>result.From(doThing()).
+    AndThen(doAnotherThing).
+    Unwrap()
+</code></pre>
+<p>Much more readable and declarative. It lets me focus on the data flow, not on boilerplate.</p><h3>✅ Safety with Panic Option</h3><p>The Unwrap() method panics if the result contains an error, which is perfect for quick scripts or test scenarios where you don’t want to do verbose error checks. If you want a fallback, there’s UnwrapOr().</p><p>This duality is inspired by Rust’s Result, and it feels right.</p><h3>✅ Generic and Reusable</h3><p>By leveraging Go’s generics, this works with any type. You get all the benefits of type safety, without the need for type assertions or reflection tricks.</p><h3>✅ Functional Flavor</h3><p>Map() and AndThen() give you a taste of functional composition. Map() transforms the inner value. AndThen() lets you chain more Result-producing functions. This opens the door to writing expressive pipelines without tangled conditionals.</p><p>I built this Result library not to rewrite Go’s philosophy, but to cope with it. It’s a small abstraction that helps me write cleaner, more composable code—especially in projects where performance isn’t critical and developer happiness matters more.</p><p>If you’re like me and error handling in Go starts to feel like busywork, give it a shot. Just remember: abstractions are tools, not rules. Use them where they help. Ditch them where they hurt.</p><p>Let me know what you think—or better yet, send a PR. 😄</p><p>GIT: <a href="https://github.com/nopfx/gresult">GResult</a></p></div></main><footer><div class="terminal-line"><span class="prompt">lazy@nop.f(x):~$</span><span class="command">uname -a</span></div><div class="terminal-output"><p>© 2025 Nop.F(x). All rights reserved.</p><p>Built with <span class="heart">♥</span> to VIM by using pure HTML/CSS.</p></div></footer></div><script src="assets/js/dark-mode.js"></script></body></html>
