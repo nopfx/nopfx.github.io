@@ -151,6 +151,10 @@ main {
     margin-bottom: 10px;
 }
 
+.note-content,
+.post-content a {
+    color: var(--accent-color) !important;
+}
 .read-more {
     display: inline-block;
     color: var(--accent-color);
