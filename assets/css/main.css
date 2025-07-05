@@ -151,8 +151,9 @@ main {
     margin-bottom: 10px;
 }
 
-.note-content a {
+.note-content p a {
     color: var(--accent-color) !important;
+    text-decoration: underline !important;
 }
 .read-more {
     display: inline-block;
