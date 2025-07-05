@@ -151,8 +151,7 @@ main {
     margin-bottom: 10px;
 }
 
-.note-content,
-.post-content a {
+.note-content a {
     color: var(--accent-color) !important;
 }
 .read-more {
