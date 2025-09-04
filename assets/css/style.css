@@ -132,7 +132,7 @@ table {
 **/
 body {
     margin: 0;
-    padding: 0;
+    padding: 20px;
     font-family: "Inika", serif;
     font-weight: 400;
     font-style: normal;
@@ -270,6 +270,24 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
     background-color: #ffffde;
     color: #02303e;
+}
+@media screen and (max-width: 800px) {
+    body {
+        padding: 20px 30px;
+    }
+}
+@media screen and (max-width: 700px) {
+    .posts-post__inner {
+        flex-direction: column !important;
+    }
+    .posts-post__meta {
+        padding-bottom: 0px !important;
+    }
+}
+@media screen and (max-width: 630px) {
+    .posts-post__link {
+        font-size: 20px !important;
+    }
 }
 .wrapper {
     display: block;
