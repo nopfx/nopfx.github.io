@@ -1,0 +1,307 @@
+/**
+* Reset CSS
+**/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol,
+ul {
+    list-style: none;
+}
+blockquote,
+q {
+    quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/**
+* Main CSS
+**/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inika", serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #02303e;
+    color: #ffffde;
+}
+a {
+    color: #023047;
+    background-color: #ffffde;
+    padding: 3px 5px;
+    text-decoration: none;
+    transition: all 200ms linear;
+}
+
+a:hover {
+    color: #fff;
+    background-color: #02281a;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 300;
+    margin: 0;
+    line-height: 28px;
+    padding: 5px 0 10px 0;
+}
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    padding: 25px 0 20px 0;
+}
+h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0;
+    padding: 25px 0 20px 0;
+}
+h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    padding: 25px 0 20px 0;
+}
+strong {
+    font-weight: 800;
+}
+ol,
+ul {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+ol li,
+ul li {
+    display: block;
+    margin: 15px 0 10px 10px;
+    line-height: 24px;
+    font-size: 18px;
+}
+li::before {
+    content: "•";
+    font-size: 130%;
+    line-height: 0;
+    margin: 0 0.3rem 0 -0.25rem;
+    position: relative;
+    top: 0.08rem;
+}
+
+p code,
+li code {
+    border: 1px solid #ffffde;
+    border-left: 3px solid #ffffde;
+    background-color: #02283c;
+    color: #fff;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 5px 8px;
+    margin: 3px 0 3px 0;
+}
+
+pre {
+    border: 1px solid #ffffde;
+    border-left: 4px solid #ffffde;
+    background-color: #02283c;
+    color: #ffffde;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
+/* Basic table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Table header */
+thead {
+    background-color: #02303e;
+}
+
+th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #ffffde;
+    border-bottom: 2px solid #ffffde;
+}
+
+/* Table body */
+td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ffffde;
+}
+
+/* Zebra striping for rows */
+tbody tr:nth-child(even) {
+    background-color: #02303e;
+}
+
+/* Hover effect */
+tbody tr:hover {
+    background-color: #ffffde;
+    color: #02303e;
+}
+.wrapper {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    clear: both;
+    width: 100%;
+    max-width: 800px;
+    min-width: 400px;
+    margin: 0 auto;
+}
+.posts {
+    padding-top: 40px;
+}
+.top-line {
+    padding: 15px 0;
+}
+.top-line__logo:hover,
+.top-line__logo {
+    background-color: transparent;
+    color: #ffffde;
+}
+.posts-post__inner {
+    display: flex;
+}
+.posts-post__title {
+    padding: 15px 5px;
+    font-size: 1.6rem;
+    line-height: 2.9rem;
+}
+.posts-post__meta {
+    padding: 15px 10px;
+    justify-content: center;
+    align-items: center;
+}

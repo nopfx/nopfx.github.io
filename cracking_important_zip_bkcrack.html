@@ -1,10 +1,52 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nop.Fx(Notes) -> </title><link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="assets/css/reset.css"><link rel="stylesheet" href="assets/css/main.css"><link rel="stylesheet" href="assets/css/terminal.css"><link rel="stylesheet" href="assets/css/responsive.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/dark-mode.css"></head><body><div class="container"><header><div class="terminal-header"><div class="terminal-buttons"><span class="terminal-button close"></span><span class="terminal-button minimize"></span><span class="terminal-button maximize"></span></div><div class="terminal-title">~/</div><div class="toggle-container"><span class="toggle-label">Theme</span><label class="toggle-switch"><input type="checkbox" id="dark-mode-toggle"><span class="toggle-slider"></span></label></div></div><nav><ul class="terminal-nav"><li><a href="index.html">> home</a></li><li><a href="https://github.com/nopfx" target="_blank">> code</a></li><li><a href="https://discord.gg/CtP4vwG5" target="_blank">> chat</a></li></ul></nav></header><main><div class="note-content"><h1>🔐 CTF Writeup: ZipCrypto Password Recovery with bkcrack</h1><h2>📦 Challenge Overview</h2><p>We got our hands on a password-protected ZIP archive named <code>important.zip</code>, which contains the following files:</p>
-<ul><li><code>alien.svg</code></li>
-<li><code>important_document.pdf</code></li>
-<li><code>secret.txt</code></li>
-</ul><p>Our objective is to decrypt the contents or recover the original password in order to access the flag hidden within one of these entries.</p><h2>🧾 Step 1: Inspecting the Archive Structure</h2><p>First, we enumerate the files inside the archive to understand what we’re dealing with:</p><pre><code class="language-bash">unzip -l important.zip
+<html>
+    <head>
+        <title> ZipCrypto Password Recovery with bkcrack</title>
+        <meta charset="UTF-8" />
+<meta name="description" content="Notes on computherphile" />
+<meta
+    name="keywords"
+    content="Notes, HTML, Rust, programming, code, go, golang, cyber, ctbersecurity"
+/>
+<meta name="author" content="Nop.F(x)" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap"
+    rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="assets/css/style.css" />
+<script src="assets/js/script.js"></script>
+
+    </head>
+    <body>
+        <div class="top-line">
+    <div class="wrapper">
+        <h1>
+            <a href="index.html" class="top-line__logo">Nop.F(x) ~/Notes</a>
+        </h1>
+    </div>
+</div>
+
+        <div class="wrapper">
+            <div class="terminal">
+                <h1>CTF Writeup: ZipCrypto Password Recovery with bkcrack</h1>
+<h2>Challenge Overview</h2>
+<p>We obtained a password-protected ZIP archive named <strong>important.zip</strong>, which contains the following files:</p>
+<ul>
+<li><strong>alien.svg</strong></li>
+<li><strong>important_document.pdf</strong></li>
+<li><strong>secret.txt</strong></li>
+</ul>
+<p>The objective is to decrypt the contents or recover the original password in order to access the flag hidden within one of these entries.</p>
+<h2>Step 1: Inspecting the Archive Structure</h2>
+<p>First, we enumerate the files inside the archive to understand its contents:</p>
+<pre><code>unzip -l important.zip
 </code></pre>
-<p>Output:</p><pre><code class="language-bash">Archive:  important.zip
+<p>Output:</p>
+<pre><code>Archive:  important.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
       545  05-14-2025 02:31   alien.svg
@@ -13,16 +55,25 @@
 ---------                     -------
     19709                     3 files
 </code></pre>
-<p>The file <code>alien.svg</code> stands out as the smallest and is a strong candidate for a known-plaintext attack.</p>
-<h2>🧠 Step 2: Selecting a Known Plaintext Target</h2><p>This archive is encrypted using ZipCrypto, which is susceptible to a known-plaintext attack. To proceed, we need a sequence of plaintext bytes that align with the beginning of an encrypted file.</p><p><strong>Why alien.svg?</strong></p><p>SVG files almost universally start with a standardized XML declaration:</p><pre><code class="language-bash">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<p>The file <strong>alien.svg</strong> stands out as the smallest and is a strong candidate for a known-plaintext attack.</p>
+<h2>Step 2: Selecting a Known Plaintext Target</h2>
+<p>This archive is encrypted using ZipCrypto, which is vulnerable to a known-plaintext attack. To proceed, we need a sequence of plaintext bytes that align with the beginning of an encrypted file.</p>
+<p>Why choose <strong>alien.svg</strong>?</p>
+<p>SVG files almost universally start with a standardized XML declaration:</p>
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 </code></pre>
-<p>This predictable header makes <code>alien.svg</code> an excellent candidate for constructing known plaintext.</p>
-<h2>✍️ Step 3: Crafting plain.txt</h2><p>To perform the attack, we need a plaintext file that contains a snippet matching the start of the  <code>alien.svg</code>. Since we don’t have the original file, we generate the beginning manually based on known <code>SVG/XML</code> structure.</p>
-<p>We include the first 13 bytes, which meets the requirement of at least 12 known bytes, with 8 contiguous.</p><pre><code class="language-bash">echo -n '&lt;?xml version="1.0" %' &gt; plain.txt
+<p>This predictable header makes <strong>alien.svg</strong> an excellent candidate for constructing known plaintext.</p>
+<h2>Step 3: Crafting plain.txt</h2>
+<p>To perform the attack, we need a plaintext file that contains a snippet matching the start of <strong>alien.svg</strong>. Since we do not have the original file, we generate the beginning manually based on known <strong>SVG/XML</strong> structure.</p>
+<p>We include the first 13 bytes, which meets the requirement of at least 12 known bytes, with 8 contiguous.</p>
+<pre><code>echo -n '&lt;?xml version="1.0" %' &gt; plain.txt
 </code></pre>
-<h2>🧨 Step 4: Launching the Attack with bkcrack</h2><p>With the crafted plaintext in place, we invoke bkcrack to recover the internal encryption keys:</p><pre><code class="language-bash">bkcrack -C important.zip -c alien.svg -p plain.txt
+<h2>Step 4: Launching the Attack with bkcrack</h2>
+<p>With the crafted plaintext in place, we invoke bkcrack to recover the internal encryption keys:</p>
+<pre><code>bkcrack -C important.zip -c alien.svg -p plain.txt
 </code></pre>
-<p>Output:</p><pre><code class="language-bash">bkcrack 1.7.1 - 2024-12-21
+<p>Output:</p>
+<pre><code>bkcrack 1.7.1 - 2024-12-21
 [21:56:02] Z reduction using 13 bytes of known plaintext
 100.0 % (13 / 13)
 [21:56:03] Attack on 549123 Z values at index 6
@@ -33,8 +84,17 @@ You may resume the attack with the option: --continue-attack 273379
 [22:01:54] Keys
 aecfb215 d758b203 a40cae44
 </code></pre>
-<p>Success — we’ve recovered the internal keys used to encrypt the archive.</p><h2>🗝 Step 5: Decrypting with Recovered Keys</h2><p>With the internal keys in hand, we can now decrypt individual entries, such as secret.txt, without knowing the original password:</p><pre><code class="language-bash">bkcrack -C important.zip -c secret.txt -k aecfb215 d758b203 a40cae44 -d secret_decrypted.txt
+<p>At this stage, we have successfully recovered the internal keys used to encrypt the archive.</p>
+<h2>Step 5: Decrypting with Recovered Keys</h2>
+<p>With the internal keys in hand, we can now decrypt individual entries, such as <strong>secret.txt</strong>, without needing the original password:</p>
+<pre><code>bkcrack -C important.zip -c secret.txt -k aecfb215 d758b203 a40cae44 -d secret_decrypted.txt
 </code></pre>
-<h2>🔒 Step 6: Repackaging with a New Password</h2><p>To lock things down (or replace the password with one of our choosing), we generate a new encrypted archive:</p><pre><code class="language-bash">bkcrack -C important.zip -k aecfb215 d758b203 a40cae44 -U important_relocked.zip newpass2025
+<h2>Step 6: Repackaging with a New Password</h2>
+<p>To secure the archive again (or replace the password with one of our choosing), we can generate a new encrypted archive:</p>
+<pre><code>bkcrack -C important.zip -k aecfb215 d758b203 a40cae44 -U important_relocked.zip newpass2025
 </code></pre>
-</div></main><footer><div class="terminal-line"><span class="prompt">lazy@nop.f(x):~$</span><span class="command">uname -a</span></div><div class="terminal-output"><p>© 2025 Nop.F(x). All rights reserved.</p><p>Built with <span class="heart">♥</span> to VIM by using <a href="https://github.com/nopfx/webas" target="_blank">WEBAS</a>.</p></div></footer></div><script src="assets/js/dark-mode.js"></script></body></html>
+ 
+            </div>
+        </div>
+    </body>
+</html>

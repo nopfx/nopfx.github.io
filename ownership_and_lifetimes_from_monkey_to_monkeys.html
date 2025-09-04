@@ -1,63 +1,129 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nop.Fx(Notes) -> </title><link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="assets/css/reset.css"><link rel="stylesheet" href="assets/css/main.css"><link rel="stylesheet" href="assets/css/terminal.css"><link rel="stylesheet" href="assets/css/responsive.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/dark-mode.css"></head><body><div class="container"><header><div class="terminal-header"><div class="terminal-buttons"><span class="terminal-button close"></span><span class="terminal-button minimize"></span><span class="terminal-button maximize"></span></div><div class="terminal-title">~/</div><div class="toggle-container"><span class="toggle-label">Theme</span><label class="toggle-switch"><input type="checkbox" id="dark-mode-toggle"><span class="toggle-slider"></span></label></div></div><nav><ul class="terminal-nav"><li><a href="index.html">> home</a></li><li><a href="https://github.com/nopfx" target="_blank">> code</a></li><li><a href="https://discord.gg/CtP4vwG5" target="_blank">> chat</a></li></ul></nav></header><main><div class="note-content"><h1>🦍 Rust Ownership &amp; Lifetimes (For Monkeys!)</h1><h2>🍌 What is Ownership? (Rust’s Biggest Rule!)</h2><p>Rust does <strong>not</strong> have garbage collection. Instead, it has <strong>ownership rules</strong> to manage memory <strong>automatically</strong>!</p><h3>🏡 Rule #1: Every Value Has <strong>One</strong> Owner</h3><pre><code class="language-rust">fn main() {
-    let banana = String::from("🍌"); // banana owns this String
+<html>
+    <head>
+        <title> Ownership && lifetimes in Rust</title>
+        <meta charset="UTF-8" />
+<meta name="description" content="Notes on computherphile" />
+<meta
+    name="keywords"
+    content="Notes, HTML, Rust, programming, code, go, golang, cyber, ctbersecurity"
+/>
+<meta name="author" content="Nop.F(x)" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap"
+    rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="assets/css/style.css" />
+<script src="assets/js/script.js"></script>
+
+    </head>
+    <body>
+        <div class="top-line">
+    <div class="wrapper">
+        <h1>
+            <a href="index.html" class="top-line__logo">Nop.F(x) ~/Notes</a>
+        </h1>
+    </div>
+</div>
+
+        <div class="wrapper">
+            <div class="terminal">
+                <h1>Rust Ownership &amp; Lifetimes</h1>
+<h2>What is Ownership?</h2>
+<p>Rust does <strong>not</strong> have garbage collection. Instead, it has <strong>ownership rules</strong> to manage memory <strong>automatically</strong>.</p>
+<h3>Rule #1: Every Value Has <strong>One</strong> Owner</h3>
+<pre><code class="language-rust">fn main() {
+    let banana = String::from("banana"); // banana owns this String
     let monkey = banana; // Ownership MOVED to monkey!
-    // println!("{}", banana); // ❌ ERROR! banana lost ownership!
-    println!("{}", monkey); // ✅ Works!
+    // println!("{}", banana); // ERROR! banana lost ownership!
+    println!("{}", monkey); // Works!
 }
 </code></pre>
-<p>When <code>banana</code> gives ownership to <code>monkey</code>, it <strong>loses access</strong> to the banana! 🐵</p>
-<h3>🏡 Rule #2: When the Owner Dies, the Value is Dropped</h3><pre><code class="language-rust">fn main() {
+<p>When <strong>banana</strong> gives ownership to <strong>monkey</strong>, it <strong>loses access</strong> to the value.</p>
+<h3>Rule #2: When the Owner Dies, the Value is Dropped</h3>
+<pre><code class="language-rust">fn main() {
     {
-        let food = String::from("🍎"); // food is created
+        let food = String::from("apple"); // food is created
         println!("Monkey eats: {}", food);
-    } // food goes out of scope, and is DROPPED 🗑️
-    // println!("{}", food); // ❌ ERROR! food is GONE!
+    } // food goes out of scope, and is DROPPED
+    // println!("{}", food); // ERROR! food is gone!
 }
 </code></pre>
-<p>When <code>food</code> goes <strong>out of scope</strong>, Rust <strong>automatically cleans it up</strong>! 🧹</p>
-<h2>🔄 Borrowing (Sharing Bananas!)</h2><p>Monkeys don’t like sharing, but Rust <strong>allows borrowing</strong> instead of moving ownership!</p><h3>🏡 Rule #3: You Can Borrow <strong>Without Taking Ownership</strong></h3><pre><code class="language-rust">fn eat(banana: &amp;String) { // Borrowing (not moving)
+<p>When <strong>food</strong> goes <strong>out of scope</strong>, Rust <strong>automatically cleans it up</strong>.</p>
+<h2>Borrowing</h2>
+<p>Rust <strong>allows borrowing</strong> instead of moving ownership.</p>
+<h3>Rule #3: You Can Borrow <strong>Without Taking Ownership</strong></h3>
+<pre><code class="language-rust">fn eat(banana: &amp;String) { // Borrowing (not moving)
     println!("Monkey eats: {}", banana);
 }
 
 fn main() {
-    let banana = String::from("🍌");
-    eat(&amp;banana); // ✅ Works! banana is still owned by main
+    let banana = String::from("banana");
+    eat(&amp;banana); // Works! banana is still owned by main
     println!("Banana is still here: {}", banana);
 }
 </code></pre>
-<p>Borrowing (<code>&amp;</code>) allows you to <strong>use</strong> a value <strong>without owning</strong> it!</p>
-<h3>🚫 Rule #4: No Mutability Conflicts!</h3><p>You can:</p><ul><li><ol><li>Have <strong>multiple immutable</strong> references (readonly 🧊)</li></ol></li><li><ol start="2"><li>OR <strong>only one mutable</strong> reference (write access ✏️)</li></ol></li></ul><pre><code class="language-rust">fn main() {
-    let mut banana = String::from("🍌");
+<p>Borrowing (<strong>&amp;</strong>) allows you to <strong>use</strong> a value <strong>without owning</strong> it.</p>
+<h3>Rule #4: No Mutability Conflicts</h3>
+<p>You can:</p>
+<ol>
+<li>Have <strong>multiple immutable</strong> references (readonly)</li>
+</ol>
+<pre><code class="language-rust">fn main() {
+    let mut banana = String::from("banana");
     let monkey1 = &amp;banana; // Immutable borrow
     let monkey2 = &amp;banana; // Another immutable borrow
-    println!("Monkeys see: {} and {}", monkey1, monkey2); // ✅ Works!
+    println!("Monkeys see: {} and {}", monkey1, monkey2); // Works!
 
-    // let monkey3 = &amp;mut banana; // ❌ ERROR! Can't mutate while others read!
+    // let monkey3 = &amp;mut banana; // ERROR! Can't mutate while others read!
 }
 </code></pre>
+<ol start="2">
+<li>OR <strong>only one mutable</strong> reference (write access)</li>
+</ol>
 <pre><code class="language-rust">fn main() {
-    let mut banana = String::from("🍌");
-    let monkey = &amp;mut banana; // ✅ Allowed, only ONE mutable borrow
-    monkey.push_str("🍌"); // Modify banana!
+    let mut banana = String::from("banana");
+    let monkey = &amp;mut banana; // Allowed, only ONE mutable borrow
+    monkey.push_str(" banana"); // Modify banana!
     println!("Monkey added more bananas: {}", monkey);
 }
 </code></pre>
-<h2>⏳ Lifetimes (How Long Can You Borrow?)</h2><p>Sometimes monkeys <strong>borrow bananas for too long</strong>! Rust checks lifetimes to make sure bananas don’t disappear while being borrowed! 🍌⏳</p><h3>🏡 Rule #5: Lifetimes Define <strong>How Long a Borrow is Valid</strong></h3><pre><code class="language-rust">fn longest&lt;'a&gt;(s1: &amp;'a str, s2: &amp;'a str) -&gt; &amp;'a str {
+<h2>Lifetimes</h2>
+<p>Rust checks lifetimes to make sure values don’t disappear while being borrowed.</p>
+<h3>Rule #5: Lifetimes Define <strong>How Long a Borrow is Valid</strong></h3>
+<pre><code class="language-rust">fn longest&lt;'a&gt;(s1: &amp;'a str, s2: &amp;'a str) -&gt; &amp;'a str {
     if s1.len() &gt; s2.len() { s1 } else { s2 }
 }
 
 fn main() {
-    let banana = String::from("🍌🍌🍌");
-    let apple = String::from("🍎");
+    let banana = String::from("banana banana banana");
+    let apple = String::from("apple");
     let best = longest(&amp;banana, &amp;apple);
     println!("Best fruit: {}", best);
 }
 </code></pre>
-<p>Here, <code>longest&lt;'a&gt;</code> means <strong>both inputs and output share the same lifetime</strong>.</p>
-<h3>❌ What Happens When Lifetimes Are Wrong?</h3><pre><code class="language-rust">fn bad() -&gt; &amp;String { // ❌ ERROR! No lifetime!
-    let banana = String::from("🍌");
-    &amp;banana // ❌ banana is DROPPED here!
+<p>Here, <strong>longest&lt;’a&gt;</strong> means <strong>both inputs and output share the same lifetime</strong>.</p>
+<h3>What Happens When Lifetimes Are Wrong?</h3>
+<pre><code class="language-rust">fn bad() -&gt; &amp;String { // ERROR! No lifetime!
+    let banana = String::from("banana");
+    &amp;banana // banana is dropped here!
 }
 </code></pre>
-<p>The banana <strong>disappears</strong> before it can be returned! 🚨</p><h2>🏁 Summary (Monkey Wisdom 🍌)</h2><ul><li>✔ Ownership <strong>moves</strong> when assigned to another variable ➡️</li><li>✔ Every value has <strong>one owner</strong> 🏡</li><li>✔ <strong>Borrowing</strong> (<code>&amp;</code>) lets you use without owning 🔄</li>
-<li>✔ Multiple <strong>immutable</strong> or <strong>one mutable</strong> borrow allowed 🚦</li><li>✔ <strong>Lifetimes</strong> ensure borrowed values live long enough ⏳</li></ul><p>Now go write some Rust without dropping your bananas! 🐵🚀</p></div></main><footer><div class="terminal-line"><span class="prompt">lazy@nop.f(x):~$</span><span class="command">uname -a</span></div><div class="terminal-output"><p>© 2025 Nop.F(x). All rights reserved.</p><p>Built with <span class="heart">♥</span> to VIM by using <a href="https://github.com/nopfx/webas" target="_blank">WEBAS</a>.</p></div></footer></div><script src="assets/js/dark-mode.js"></script></body></html>
+<p>The value <strong>disappears</strong> before it can be returned.</p>
+<h2>Summary</h2>
+<ul>
+<li>Ownership <strong>moves</strong> when assigned to another variable.</li>
+<li>Every value has <strong>one owner</strong>.</li>
+<li><strong>Borrowing</strong> (<strong>&amp;</strong>) lets you use without owning.</li>
+<li>Multiple <strong>immutable</strong> or <strong>one mutable</strong> borrow allowed.</li>
+<li><strong>Lifetimes</strong> ensure borrowed values live long enough.</li>
+</ul>
+ 
+            </div>
+        </div>
+    </body>
+</html>
